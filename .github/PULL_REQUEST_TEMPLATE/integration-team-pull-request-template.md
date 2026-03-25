@@ -1,0 +1,11 @@
+- [ ] Is this test case included in a **Scenario** file?
+- [ ] Does the class name reflect the Connector or Stage involved in the test?
+- [ ] Are the methods named in such a way that it represent the test under consideration?
+- [ ] Is copyright notice and code formatting (new code) applied?
+- [ ] Are 'Test Priorities' appropriately applied considering method dependencies?
+- [ ] Is corresponding SQL file for the connector updated for DDL updates, where applicable?
+- [ ] Is detect-secrets screenshot attached?
+- [ ] Is screenshot of local test run results attached?
+- [ ] Is the feature/fix branch is in synch with **main** branch at the time of raising PR?
+- [ ] Are warning messages from newly introduced code appropriately addressed?
+- [ ] Is the DataStage flow validated through **FlowGuard** and screenshot of the sanitized output attached?

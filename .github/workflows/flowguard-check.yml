@@ -1,0 +1,73 @@
+name: FlowGuard Validation Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check-flowguard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check FlowGuard checkbox
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const checked = body.includes('- [x] Has the Customer shared isx/zip validated through **FlowGuard**');
+
+            if (!checked) {
+              core.setFailed('❌ FlowGuard validation checkbox is not checked. Reviewer must validate before merging.');
+            } else {
+              console.log('✅ FlowGuard validation confirmed!');
+            }
+
+# ```
+
+# ---
+
+## Step 2 — Make it a required check (blocks merge button)
+
+# 1. Go to your repo → **Settings → Branches**
+# 2. Click **Add branch protection rule**
+# 3. Set branch name pattern to `main`
+# 4. Enable **"Require status checks to pass before merging"**
+# 5. Search and select **`check-flowguard`**
+# 6. Enable **"Require pull request reviews before merging"**
+# 7. Click **Save changes**
+
+# ---
+
+## Step 3 — How it works
+# ```
+# PR is raised by developer
+#         ↓
+# Reviewer reviews the code
+#         ↓
+# Reviewer edits PR description
+#         ↓
+# Checks the FlowGuard checkbox ✅
+#         ↓
+# GitHub Action detects [x] is checked
+#         ↓
+# Status check turns green ✅
+#         ↓
+# Merge button becomes active 🟢
+# ```
+
+# ---
+
+## What developer/reviewer sees
+
+# **Before checking FlowGuard checkbox:**
+# ```
+# ❌ FlowGuard validation checkbox is not checked.
+#    Reviewer must validate before merging.
+
+# [ Merge pull request ]  ← greyed out
+# ```
+
+# **After reviewer checks the box:**
+# ```
+# ✅ FlowGuard validation confirmed!
+
+# [ Merge pull request ]  ← active, can merge
